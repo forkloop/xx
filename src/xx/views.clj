@@ -17,6 +17,6 @@
          [:title title]
          (include-css "/css/screen.css")]
         [:body
-         [:h1 (md-to-html-string content)]])
+         (md-to-html-string content)])
   ;(md-to-html-string content)
   ))
