@@ -7,4 +7,6 @@
   :ring {:handler xx.handler/app}
   :profiles
   {:dev {:dependencies [[javax.servlet/servlet-api "2.5"]
-                        [ring-mock "0.1.5"]]}})
+                        [ring-mock "0.1.5"]
+                        [markdown-clj "0.9.38"]
+                        [hiccup "1.0.4"]]}})

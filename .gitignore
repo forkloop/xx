@@ -8,3 +8,5 @@ pom.xml.asc
 *.class
 /.lein-*
 /.nrepl-port
+.sass-cache/
+resources/public/css
