@@ -10,3 +10,5 @@ pom.xml.asc
 /.nrepl-port
 .sass-cache/
 resources/public/css
+.DS_Store
+Session.vim
