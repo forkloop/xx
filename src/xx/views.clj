@@ -7,6 +7,7 @@
   (let [basename (clojure.string/replace f ".md" "")]
   [:a {:href basename} (clojure.string/replace basename #"^markdown/" "")]))
 
+; sort based on timestamp
 ; filter out files startsWith `_` as unpublished
 ; filter out files not endsWith `.md`
 (defn list-files "list markdown files" []
@@ -14,17 +15,23 @@
                  [#(.endsWith (.getName %) ".md") #(not (.startsWith (.getName %) "_"))])
           (file-seq (io/file "markdown"))))
 
+(defn stat "doc-string" [file]
+  (.lastModified (io/file (clojure.string/join "" ["markdown/" file ".md"]))))
+
+(defn files-metadata "list files and its metadata" []
+  (map #(hash-map (.toString %) (.lastModified (io/file %))) (list-files)))
+
 (defn index "index page" []
   (html5
     [:head
      [:title "forkloop"]
      (include-css "/css/screen.css")]
     [:body
+     ;[:div
+      ; better [:p (sort-by (comp val first) > (files-metadata))]
+      ;[:p (sort-by #(val (first %)) > (files-metadata))]]
      [:div
-      [:ul (for [f (list-files)] [:li (anchor f)])]]]))
-
-(defn stat "doc-string" [file]
-  (.lastModified (io/file (clojure.string/join "" ["markdown/" file ".md"]))))
+      [:ul (for [f (sort-by (comp val first) > (files-metadata))] [:li (anchor (key (first f)))])]]]))
 
 (defn markdown "render markdown" [title]
     (let [content (slurp (clojure.string/join "" ["markdown/" title ".md"]))
