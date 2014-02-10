@@ -1,6 +1,7 @@
 (ns xx.views
   (:use [hiccup core page]
-         markdown.core)
+         markdown.core
+        xx.utils)
   (:require [clojure.java.io :as io]))
 
 (defn anchor "create anchor" [f]
@@ -42,7 +43,7 @@
          (include-css "/css/screen.css")]
         [:body
          [:a {:href "/"} "index"]
-         [:p {:class "right"} timestamp]
+         [:p {:class "right"} (format-date timestamp)]
          [:div
           (md-to-html-string content)]])
   ;(md-to-html-string content)
