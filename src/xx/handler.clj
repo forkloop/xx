@@ -6,6 +6,7 @@
 
 (defroutes app-routes
   (GET "/" [] (index))
+  (GET "/about" [] (about))
   (GET "/markdown/:t" [t] (markdown t))
   (route/resources "/")
   (route/not-found "Not Found"))

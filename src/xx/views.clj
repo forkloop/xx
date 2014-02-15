@@ -17,7 +17,7 @@
           (file-seq (io/file "markdown"))))
 
 (defn stat "doc-string" [file]
-  (.lastModified (io/file (clojure.string/join "" ["markdown/" file ".md"]))))
+  (.lastModified (io/file file)))
 
 (defn files-metadata "list files and its metadata" []
   (map #(hash-map (.toString %) (.lastModified (io/file %))) (list-files)))
@@ -32,19 +32,28 @@
       ; better [:p (sort-by (comp val first) > (files-metadata))]
       ;[:p (sort-by #(val (first %)) > (files-metadata))]]
      [:div
-      [:ul (for [f (sort-by (comp val first) > (files-metadata))] [:li (anchor (key (first f)))])]]]))
+      [:ul (for [f (sort-by (comp val first) > (files-metadata))] [:li (anchor (key (first f)))])]]
+     [:footer
+      [:a {:href "/about"} "About"]]]))
+
+(defn- render-markdown "doc-string" [title, file]
+  (let [content (slurp file)
+        timestamp (stat file)]
+    (html5
+      [:head
+       [:title title]
+       (include-css "/css/screen.css")]
+      [:body
+       [:a {:href "/"} "index"]
+       [:p {:class "right"} (format-date timestamp)]
+       [:div
+        (md-to-html-string content)]
+       (if (not= title "about")
+       [:footer
+        [:a {:href "/about"} "About"]])])))
+
+(defn about "doc-string" []
+  (render-markdown "about" "resources/pages/about.md"))
 
 (defn markdown "render markdown" [title]
-    (let [content (slurp (clojure.string/join "" ["markdown/" title ".md"]))
-          timestamp (stat title)]
-      (html5
-        [:head
-         [:title title]
-         (include-css "/css/screen.css")]
-        [:body
-         [:a {:href "/"} "index"]
-         [:p {:class "right"} (format-date timestamp)]
-         [:div
-          (md-to-html-string content)]])
-  ;(md-to-html-string content)
-  ))
+  (render-markdown title (clojure.string/join "" ["markdown/" title ".md"])))
