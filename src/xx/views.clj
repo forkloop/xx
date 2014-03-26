@@ -47,7 +47,8 @@
        [:a {:href "/" :class "home"}
          [:i {:class "fa fa-home fa-4x"}]]
        [:div {:id "wrapper"}
-        [:p {:class "right"} [:i {:class "fa fa-pencil-square-o fa-lg"}](format-date timestamp)]
+        (if (not= title "about")
+          [:p {:class "right"} [:i {:class "fa fa-pencil-square-o fa-lg"}](format-date timestamp)])
         [:div {:class "markdown"}
          (md-to-html-string content)]]
        (if (not= title "about")
