@@ -5,6 +5,11 @@
 
 @import "compass/reset";
 @import "http://fonts.googleapis.com/css?family=Lato:100,300,400";
+@import "//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css";
+
+a {
+  text-decoration: none;
+}
 
 body {
   padding: 30px 20px;
@@ -17,6 +22,8 @@ h1, h2, h3 {
 
 h1 {
   font-size: 30px;
+  text-transform: uppercase;
+  letter-spacing: 3px;
 }
 
 p {
@@ -26,4 +33,31 @@ p {
 pre {
   border: 1px dashed;
   padding: 5px;
+  margin: 10px 0
+}
+
+footer {
+  > a {
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+}
+
+.right {
+  text-align: right;
+}
+
+.markdown {
+  padding-top: 30px;
+}
+
+#wrapper {
+  min-height: 800px;
+  width: 800px;
+  margin: auto;
+
+  > ul {
+    font-size: 20px;
+    letter-spacing: 1px;
+  }
 }

@@ -1,5 +1,5 @@
-(defproject xx "0.1.0-SNAPSHOT"
-  :description "FIXME: write description"
+(defproject us.forkloop.xx "0.1.0-SNAPSHOT"
+  :description "A Clojure Markdown backed static server."
   :url "http://example.com/FIXME"
   :dependencies [[org.clojure/clojure "1.5.1"]
                  [compojure "1.1.6"]]

@@ -31,7 +31,7 @@
      ;[:div
       ; better [:p (sort-by (comp val first) > (files-metadata))]
       ;[:p (sort-by #(val (first %)) > (files-metadata))]]
-     [:div
+     [:div {:id "wrapper"}
       [:ul (for [f (sort-by (comp val first) > (files-metadata))] [:li (anchor (key (first f)))])]]
      [:footer
       [:a {:href "/about"} "About"]]]))
@@ -44,10 +44,12 @@
        [:title title]
        (include-css "/css/screen.css")]
       [:body
-       [:a {:href "/"} "index"]
-       [:p {:class "right"} (format-date timestamp)]
-       [:div
-        (md-to-html-string content)]
+       [:a {:href "/" :class "home"}
+         [:i {:class "fa fa-home fa-4x"}]]
+       [:div {:id "wrapper"}
+        [:p {:class "right"} [:i {:class "fa fa-pencil-square-o fa-lg"}](format-date timestamp)]
+        [:div {:class "markdown"}
+         (md-to-html-string content)]]
        (if (not= title "about")
        [:footer
         [:a {:href "/about"} "About"]])])))
