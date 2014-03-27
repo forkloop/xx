@@ -22,19 +22,27 @@
 (defn files-metadata "list files and its metadata" []
   (map #(hash-map (.toString %) (.lastModified (io/file %))) (list-files)))
 
+(defn- footer "Generate the footer" [url]
+  [:footer
+   (if (not= url "about")
+     [:a {:href "/about"} "About"])
+   (if (:twitter settings)
+     [:a{:class "pull-right" :href (str "https://twitter.com/" (:twitter settings))} (str "@"(:twitter settings))])])
+
 (defn index "index page" []
   (html5
     [:head
      [:title "forkloop"]
      (include-css "/css/screen.css")]
     [:body
+     (if (:name settings)
+       [:h1 {:id "name"} (:name settings)])
      ;[:div
       ; better [:p (sort-by (comp val first) > (files-metadata))]
       ;[:p (sort-by #(val (first %)) > (files-metadata))]]
      [:div {:id "wrapper"}
       [:ul (for [f (sort-by (comp val first) > (files-metadata))] [:li (anchor (key (first f)))])]]
-     [:footer
-      [:a {:href "/about"} "About"]]]))
+     (footer "index")]))
 
 (defn- render-markdown "doc-string" [title, file]
   (let [content (slurp file)
@@ -51,9 +59,7 @@
           [:p {:class "right"} [:i {:class "fa fa-pencil-square-o fa-lg"}](format-date timestamp)])
         [:div {:class "markdown"}
          (md-to-html-string content)]]
-       (if (not= title "about")
-       [:footer
-        [:a {:href "/about"} "About"]])])))
+      (footer title)])))
 
 (defn about "doc-string" []
   (render-markdown "about" "resources/pages/about.md"))

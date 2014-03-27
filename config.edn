@@ -1,2 +1,4 @@
 { :paginate true
-  :name "forkloop" }
+  :name "xx"
+  :twitter "forkloop"
+  :github "forkloop" }
