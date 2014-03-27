@@ -4,9 +4,12 @@
         xx.utils)
   (:require [clojure.java.io :as io]))
 
+;;;
+;;; TODO tag
+;;;
 (defn anchor "create anchor" [f]
-  (let [basename (clojure.string/replace f ".md" "")]
-  [:a {:href basename} (clojure.string/replace basename #"^markdown/" "")]))
+  (let [basename (clojure.string/replace (key f) ".md" "")]
+  [:a {:href basename} (str (format-date (val f)) " -- " (clojure.string/replace basename #"^markdown/" ""))]))
 
 ; sort based on timestamp
 ; filter out files startsWith `_` as unpublished
@@ -27,7 +30,7 @@
    (if (not= url "about")
      [:a {:href "/about"} "About"])
    (if (:twitter settings)
-     [:a{:class "pull-right" :href (str "https://twitter.com/" (:twitter settings))} (str "@"(:twitter settings))])])
+     [:a {:class "pull-right" :href (str "https://twitter.com/" (:twitter settings))} (str "@"(:twitter settings))])])
 
 (defn index "index page" []
   (html5
@@ -37,11 +40,10 @@
     [:body
      (if (:name settings)
        [:h1 {:id "name"} (:name settings)])
-     ;[:div
-      ; better [:p (sort-by (comp val first) > (files-metadata))]
-      ;[:p (sort-by #(val (first %)) > (files-metadata))]]
      [:div {:id "wrapper"}
-      [:ul (for [f (sort-by (comp val first) > (files-metadata))] [:li (anchor (key (first f)))])]]
+      [:ul
+       (let [md (files-metadata)]
+         (for [f (sort-by (comp val first) > md)] [:li (anchor (first f))]))]]
      (footer "index")]))
 
 (defn- render-markdown "doc-string" [title, file]
