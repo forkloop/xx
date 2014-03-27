@@ -7,6 +7,7 @@
             [generate "0.1.0-SNAPSHOT"]]
   :ring {:handler xx.handler/app}
   :main xx.cli
+  :aot [xx.cli]
   :profiles
   {:dev {:dependencies [[javax.servlet/servlet-api "2.5"]
                         [ring-mock "0.1.5"]
