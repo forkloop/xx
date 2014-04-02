@@ -11,3 +11,8 @@
 
 (defn format-date "format the timestamp into readable date" [timestamp]
   (.format (SimpleDateFormat. date-format) (Date. timestamp)))
+
+(defmacro elapse "doc-string" [& body]
+  `(let [start-time# (System/currentTimeMills)
+         ~'get-elapsed-time (fn [] (- (System/currentTimeMills) start-time#))]
+     ~@body))
