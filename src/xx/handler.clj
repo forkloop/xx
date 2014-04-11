@@ -6,6 +6,7 @@
 
 (defroutes app-routes
   (GET "/" [] (index))
+  (GET "/tag/:t" [t] (tagged t))
   (GET "/about" [] (about))
   (GET "/markdown/:t" [t] (markdown t))
   (route/resources "/")

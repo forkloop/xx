@@ -2,11 +2,12 @@
   (:use [hiccup core page]
          markdown.core
         xx.utils)
-  (:require [clojure.java.io :as io]))
+  (:require [clojure.java.io :as io]
+            [xx.templates :as templates]))
 
-;;;
-;;; TODO tag
-;;;
+(def ^:private tags
+  {})
+
 (defn anchor "create anchor" [f]
   (let [basename (clojure.string/replace (key f) ".md" "")]
   [:a {:href basename} (str (format-date (val f)) " -- " (clojure.string/replace basename #"^markdown/" ""))]))
@@ -68,3 +69,7 @@
 
 (defn markdown "render markdown" [title]
   (render-markdown title (clojure.string/join "" ["markdown/" title ".md"])))
+
+(defn tagged "list markdown with tag t" [t]
+  (templates/layout (str "tag - " t)
+                      (templates/ul nil (get tags t))))

@@ -1,19 +1,13 @@
 # xx
 
-FIXME
+At the begining of each markdown file, you can put some metadata there, e.g., tags, in the syntax of a Clojure hash.
+{:tags ["life", "NYC"]}
 
-## Prerequisites
+During server startup, scan all markdown files for metadata and keep a record.
 
-You will need [Leiningen][1] 1.7.0 or above installed.
+## TODO
 
-[1]: https://github.com/technomancy/leiningen
+* create a startup hook to generate tag list
+* process tag when render markdown file
 
-## Running
-
-To start a web server for the application, run:
-
-    lein ring server
-
-## License
-
-Copyright © 2013 FIXME
+Copyright © 2013 forkloop
