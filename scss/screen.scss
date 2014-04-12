@@ -89,3 +89,27 @@ img {
   padding: 10px;
   display: block;
 }
+
+.tags > span {
+  padding: 5px;
+  margin: 5px;
+  background-color: $emerald;
+  > a {
+    color: #fff;
+    font-weight: 400;
+    border: none;
+  }
+}
+
+.fa-tags:before {
+  color: $emerald;
+}
+
+.fa-edit:before, .fa-pencil-square-o:before {
+  color: $peter_river;
+}
+
+.edit-date {
+  color: $peter_river;
+  font-weight: 400;
+}

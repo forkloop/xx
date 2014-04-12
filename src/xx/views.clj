@@ -48,8 +48,9 @@
        [:a {:href "/" :class "home"}
          [:i {:class "fa fa-home fa-4x"}]]
        [:div {:id "wrapper"}
+        (templates/tags ["NYC" "life"])
         (if (not= title "about")
-          [:p {:class "right"} [:i {:class "fa fa-pencil-square-o fa-lg"}](utils/format-date timestamp)])
+          [:p {:class "right edit-date"} [:i {:class "fa fa-pencil-square-o fa-lg"}](utils/format-date timestamp)])
         [:div {:class "markdown"}
          (md-to-html-string content)]]
       (footer title)])))

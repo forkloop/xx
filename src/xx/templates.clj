@@ -8,6 +8,14 @@
      (include-css "/css/screen.css")]
     [:body body]))
 
+(defn tags "" [t]
+  (if (> (count t) 0)
+    [:p {:class "left tags"}
+     [:i {:class "fa fa-tags"}]
+     (for [e t]
+       [:span
+        [:a {:href (str "/tag/" e)} e]])]))
+
 (defn ul "" [css-class l f]
    [:ul
     (if css-class
