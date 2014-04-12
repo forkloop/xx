@@ -1,3 +1,6 @@
+--
+{:tags ["NYC"]}
+--
 # xx
 
 You are there, just within my touch. ![moki](/images/sunny-moki.png)

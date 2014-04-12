@@ -5,7 +5,7 @@
                  [compojure "1.1.6"]]
   :plugins [[lein-ring "0.8.8"]
             [generate "0.1.0-SNAPSHOT"]]
-  :ring {:handler xx.handler/app}
+  :ring {:handler xx.handler/app :init xx.utils/init}
   :main xx.cli
   :aot [xx.cli]
   :profiles

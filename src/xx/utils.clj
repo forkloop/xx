@@ -7,6 +7,9 @@
 (def settings (with-open [in (io/reader "config.edn")]
                 (read (PushbackReader. in))))
 
+(def ^:dynamic *tag-list*
+  (atom {}))
+
 (def ^:private date-format "MMM dd, yyyy")
 
 (defn format-date "format the timestamp into readable date" [timestamp]
@@ -26,6 +29,24 @@
         (= @state :read) (reset! tag line)
         ))
       (load-string @tag))))
+
+; filter out files startsWith `_` as unpublished
+; filter out files not endsWith `.md`
+(defn list-files "list markdown files" []
+  (filter (apply every-pred
+                 [#(.endsWith (.getName %) ".md") #(not (.startsWith (.getName %) "_"))])
+          (file-seq (io/file "markdown"))))
+
+(defn init "" []
+  (do
+  (doseq [file (list-files)]
+    (let [tags (:tags (scan-tag file))
+          filename (clojure.string/replace (.getName file) #"\.md$" "")]
+      (doseq [t tags]
+        (if (contains? @*tag-list* t)
+          (swap! *tag-list* assoc t (conj (get @*tag-list* t) filename))
+          (swap! *tag-list* assoc t [filename])))))
+    (println (str @*tag-list*))))
 
 (defmacro elapse "doc-string" [& body]
   `(let [start-time# (System/currentTimeMills)

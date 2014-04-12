@@ -8,8 +8,10 @@
      (include-css "/css/screen.css")]
     [:body body]))
 
-(defn ul "" [css-class l]
+(defn ul "" [css-class l f]
    [:ul
     (if css-class
-      (for [e l] [:li {:class css-class} e])
-      (for [e l] [:li e]))])
+      (for [e l] [:li {:class css-class}
+                  (f e)])
+      (for [e l] [:li
+                  (f e)]))])
