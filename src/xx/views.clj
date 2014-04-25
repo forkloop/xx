@@ -26,7 +26,7 @@
 (defn index "index page" []
   (html5
     [:head
-     [:title "forkloop"]
+     [:title (:name utils/settings)]
      (include-css "/css/screen.css")]
     [:body
      (if (:name utils/settings)
@@ -38,7 +38,7 @@
      (footer "index")]))
 
 (defn- render-markdown "doc-string" [title, file]
-  (let [content (slurp file)
+  (let [[tag content] (utils/scan-markdown file)
         timestamp (stat file)]
     (html5
       [:head
@@ -48,7 +48,7 @@
        [:a {:href "/" :class "home"}
          [:i {:class "fa fa-home fa-4x"}]]
        [:div {:id "wrapper"}
-        (templates/tags ["NYC" "life"])
+        (templates/tags (:tags tag))
         (if (not= title "about")
           [:p {:class "right edit-date"} [:i {:class "fa fa-pencil-square-o fa-lg"}](utils/format-date timestamp)])
         [:div {:class "markdown"}
@@ -67,6 +67,6 @@
                       [:a {:href "/" :class "home"}
                        [:i {:class "fa fa-home fa-4x"}]]
                       [:div#wrapper
-                       [:h1 (str "TAG -- " t)]
+                       [:h1 {:class "fa fa-tag fa-2x"} t]
                        (templates/ul nil (get @utils/*tag-list* t) #(-> [:a {:href (str "/markdown/" %1)} %1]))]
                       (footer "tag"))))

@@ -48,6 +48,19 @@
           (swap! *tag-list* assoc t [filename])))))
     (println (str @*tag-list*))))
 
+(defn scan-markdown "process markdown to extract tags and others." [md]
+  (with-open [fd (clojure.java.io/reader md)]
+    (let [tag (atom "")
+          content (atom [])
+          state (atom :seek)]
+      (doseq [line (line-seq fd)]
+        (cond
+          (and (= line "--") (= @state :seek)) (reset! state :read)
+          (and (= line "--") (= @state :read)) (reset! state :done)
+          (= @state :read) (reset! tag line)
+          (= @state :done) (swap! content conj line)))
+      [(load-string @tag) (clojure.string/join "\n" @content)])))
+
 (defmacro elapse "doc-string" [& body]
   `(let [start-time# (System/currentTimeMills)
          ~'get-elapsed-time (fn [] (- (System/currentTimeMills) start-time#))]
