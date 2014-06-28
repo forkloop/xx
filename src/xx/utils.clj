@@ -1,5 +1,6 @@
 (ns xx.utils
-  (:require [clojure.java.io :as io])
+  (:require [clojure.java.io :as io]
+            [clojure.string :as string])
   (:import [java.io PushbackReader]
            java.util.Date
            java.text.SimpleDateFormat))
@@ -19,7 +20,7 @@
 ;; of a markdown file, surrounded by --
 (defn scan-tag "scan for the tag given a file name." [filename]
   (with-open [fd (clojure.java.io/reader filename)]
-    (let [tag (atom "")
+    (let [tag (atom "{}")
           state (atom :seek)
           lines (line-seq fd)]
       (loop [line (first lines)
@@ -42,18 +43,18 @@
 
 (defn init "" []
   (do
-  (doseq [file (list-files)]
-    (let [tags (:tags (scan-tag file))
-          filename (clojure.string/replace (.getName file) #"\.md$" "")]
-      (doseq [t tags]
-        (if (contains? @*tag-list* t)
-          (swap! *tag-list* assoc t (conj (get @*tag-list* t) filename))
-          (swap! *tag-list* assoc t [filename])))))
-    (println (str @*tag-list*))))
+    (doseq [file (list-files)]
+      (if-let [tags (:tags (scan-tag file))]
+        (let [filename (clojure.string/replace (.getName file) #"\.md$" "")]
+          (doseq [t tags]
+            (if (contains? @*tag-list* t)
+              (swap! *tag-list* assoc t (conj (get @*tag-list* t) filename))
+              (swap! *tag-list* assoc t [filename])))))
+      (println (str @*tag-list*)))))
 
 (defn scan-markdown "process markdown to extract tags and others." [md]
   (with-open [fd (clojure.java.io/reader md)]
-    (let [tag (atom "")
+    (let [tag (atom "{}")
           content (atom [])
           state (atom :seek)]
       (doseq [line (line-seq fd)]
@@ -63,6 +64,12 @@
           (= @state :read) (reset! tag line)
           (= @state :done) (swap! content conj line)))
       [(load-string @tag) (clojure.string/join "\n" @content)])))
+
+(defn add-hypen "replace whitespace with hypen for url" [s]
+  (string/replace s #"\s" "-"))
+
+(defn remove-hypen "replace hypen with whitespace" [s]
+  (string/replace s "-", " "))
 
 (defmacro elapse "doc-string" [& body]
   `(let [start-time# (System/currentTimeMills)

@@ -8,7 +8,7 @@
 
 (defn anchor "create anchor" [f]
   (let [basename (clojure.string/replace (key f) ".md" "")]
-  [:a {:href basename} (str (utils/format-date (val f)) " -- " (clojure.string/replace basename #"^markdown/" ""))]))
+    [:a {:href (utils/add-hypen basename)} (str (utils/format-date (val f)) " -- " (clojure.string/replace basename #"^markdown/" ""))]))
 
 (defn stat "doc-string" [file]
   (.lastModified (io/file file)))
@@ -58,15 +58,19 @@
 (defn about "doc-string" []
   (render-markdown "about" "resources/pages/about.md"))
 
-(defn markdown "render markdown" [title]
-  (render-markdown title (clojure.string/join "" ["markdown/" title ".md"])))
+(defn markdown "render markdown" [t]
+  (let [title (utils/remove-hypen t)]
+    (render-markdown title (clojure.string/join "" ["markdown/" title ".md"]))))
 
 (defn tagged "list markdown with tag t" [t]
-  (templates/layout (str "tag - " t)
-                    (html
-                      [:a {:href "/" :class "home"}
-                       [:i {:class "fa fa-home fa-4x"}]]
-                      [:div#wrapper
-                       [:h1 {:class "fa fa-tag fa-2x"} t]
-                       (templates/ul nil (get @utils/*tag-list* t) #(-> [:a {:href (str "/markdown/" %1)} %1]))]
-                      (footer "tag"))))
+  (let [tag (utils/remove-hypen t)]
+    (templates/layout (str "tag - " tag)
+                      (html
+                        [:a {:href "/" :class "home"}
+                         [:i {:class "fa fa-home fa-4x"}]]
+                        [:div#wrapper
+                         [:h1
+                          [:i {:class "fa fa-tag fa-2x"}]
+                          [:span tag]]
+                         (templates/ul nil (get @utils/*tag-list* tag) #(-> [:a {:href (str "/markdown/" (utils/add-hypen %1))} %1]))]
+                        (footer "tag")))))

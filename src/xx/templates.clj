@@ -1,4 +1,5 @@
 (ns xx.templates
+  (:require [xx.utils :as utils])
   (:use [hiccup core page]))
 
 (defn layout "doc-string" [title body]
@@ -14,7 +15,7 @@
      [:i {:class "fa fa-tags"}]
      (for [e t]
        [:span
-        [:a {:href (str "/tag/" e)} e]])]))
+        [:a {:href (str "/tag/" (utils/add-hypen e))} e]])]))
 
 (defn ul "" [css-class l f]
    [:ul

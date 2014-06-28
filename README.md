@@ -10,4 +10,6 @@ During server startup, scan all markdown files for metadata and keep a record.
 * create a startup hook to generate tag list
 * process tag when render markdown file
 
-Copyright © 2013 forkloop
+## CLI
+
+* `java -cp ~/lib/clojure-1.5.1/clojure-1.5.1.jar:target/classes/ xx.cli -h` or `java -jar standalone.jar`
