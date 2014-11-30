@@ -12,3 +12,4 @@ pom.xml.asc
 resources/public/css
 .DS_Store
 Session.vim
+.vimrc

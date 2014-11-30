@@ -43,7 +43,8 @@
     (html5
       [:head
        [:title title]
-       (include-css "/css/screen.css")]
+       (include-css "/css/screen.css")
+       (include-css "//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/default.min.css")]
       [:body
        [:a {:href "/" :class "home"}
          [:i {:class "fa fa-home fa-4x"}]]
@@ -53,7 +54,10 @@
           [:p {:class "right edit-date"} [:i {:class "fa fa-pencil-square-o fa-lg"}](utils/format-date timestamp)])
         [:div {:class "markdown"}
          (md-to-html-string content)]]
-      (footer title)])))
+       (include-js "//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/highlight.min.js")
+       [:script
+        "hljs.initHighlightingOnLoad();"]
+       (footer title)])))
 
 (defn about "doc-string" []
   (render-markdown "about" "resources/pages/about.md"))

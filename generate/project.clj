@@ -1,4 +1,4 @@
-(defproject generate "0.1.0-SNAPSHOT"
+(defproject generate "0.1.0"
   :description "Plugin for xx to generate a barebone project."
   :url "http://example.com/FIXME"
   :license {:name "Eclipse Public License"

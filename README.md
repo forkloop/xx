@@ -1,15 +1,23 @@
 # xx
+__a minimal static markdown website__
 
-At the begining of each markdown file, you can put some metadata there, e.g., tags, in the syntax of a Clojure hash.
+## Usage
+
+Just check out this repo and start to add your notes in `markdown` folder. Note starts with `_` will not be rendered. It also supports _tags_, which
+you can add at the begining of markdown document as
+
+```
+---
 {:tags ["life", "NYC"]}
-
-During server startup, scan all markdown files for metadata and keep a record.
+---
+```
 
 ## TODO
 
-* create a startup hook to generate tag list
-* process tag when render markdown file
+* probably should cache the rendered markdown?
 
-## CLI
+## License
 
-* `java -cp ~/lib/clojure-1.5.1/clojure-1.5.1.jar:target/classes/ xx.cli -h` or `java -jar standalone.jar`
+Copyright (C) 2014 forkloop
+
+Distributed under the Eclipse Public License, the same as Clojure.
